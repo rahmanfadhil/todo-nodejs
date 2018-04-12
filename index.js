@@ -25,6 +25,17 @@ app.post('/todo', (req, res) => {
   res.send("New data added successfuly!")
 })
 
+app.put('/todo/:id', (req, res) => {
+  todoList[req.params.id] = req.body
+  res.send("This data is edited successfuly")
+})
+
+
+app.delete('/todo/:id', (req, res) => {
+  todoList.splice(req.params.id, 1)
+  res.send("This data is deleted successfuly")
+})
+
 app.listen(3000, err => {
   if (err) return console.log(err)
   console.log('listening to localhost:3000')
