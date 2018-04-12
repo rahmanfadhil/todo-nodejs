@@ -42,7 +42,6 @@ app.put('/todo/:id', (req, res) => {
   res.send("This data is edited successfuly")
 })
 
-
 app.delete('/todo/:id', (req, res) => {
   todoList.splice(req.params.id, 1)
   res.send("This data is deleted successfuly")
