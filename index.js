@@ -19,6 +19,14 @@ app.get('/todo', (req, res) => {
   res.send(todoList)
 })
 
+app.get('/todo/search', (req, res) => {
+  let keyword = req.query.todo
+  let result = todoList.filter(todo => {
+    return todo.todo.toLowerCase().includes(keyword.toLowerCase())
+  })
+  res.send(result)
+})
+
 app.post('/todo', (req, res) => {
   let newTodo = req.body
   todoList.push(newTodo)
