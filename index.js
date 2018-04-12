@@ -2,6 +2,8 @@ const express = require('express')
 const bodyparser = require('body-parser')
 const cors = require('cors')
 
+const PORT = process.env.PORT || 3000
+
 const app = express()
 
 app.use(cors())
@@ -46,7 +48,7 @@ app.delete('/todo/:id', (req, res) => {
   res.send("This data is deleted successfuly")
 })
 
-app.listen(3000, err => {
+app.listen(PORT, err => {
   if (err) return console.log(err)
-  console.log('listening to localhost:3000')
+  console.log(`listening to localhost:${PORT}`)
 })
