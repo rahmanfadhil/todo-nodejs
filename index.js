@@ -2,7 +2,7 @@ const express = require('express')
 const bodyparser = require('body-parser')
 const cors = require('cors')
 
-const PORT = process.env.PORT || 3000
+// -----------------------------------------------------------------------------
 
 const app = express()
 
@@ -10,10 +10,14 @@ app.use(cors())
 app.use(bodyparser.urlencoded({ extended: false }))
 app.use(bodyparser.json())
 
+// -----------------------------------------------------------------------------
+
 let todoList = [
   { todo: "Learn express", done: false },
   { todo: "Learn nodejs", done: true }
 ]
+
+// -----------------------------------------------------------------------------
 
 app.get('/', (req, res) => {
   res.send('Hello world')
@@ -46,6 +50,10 @@ app.delete('/todo/:id', (req, res) => {
   todoList.splice(req.params.id, 1)
   res.send("This data is deleted successfuly")
 })
+
+// -----------------------------------------------------------------------------
+
+const PORT = process.env.PORT || 3000
 
 app.listen(PORT, err => {
   if (err) return console.log(err)
