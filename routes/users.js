@@ -4,7 +4,7 @@ const router = express.Router()
 const Users = require('../models/Users')
 
 router.get('/', (req, res) => {
-  Users.find()
+  Users.find().populate('todos')
   .then((users) => res.send({ text: "success", data: users }))
   .catch((err) => res.send({ text: 'error', err: err }))
 })
@@ -25,7 +25,7 @@ router.post('/', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-  Users.findOne({ _id: req.params.id })
+  Users.findOne({ _id: req.params.id }).populate('todos')
   .then((user) => res.send({ text: "success", data: user }))
   .catch((err) => res.send({ text: 'error', err: err }))
 })

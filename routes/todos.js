@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const Todos = require('../models/Todos')
+const Users = require('../models/Users')
 
 router.get('/', (req, res) => {
   Todos.find().populate('author')
@@ -16,12 +17,17 @@ router.get('/search', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-  const new_todo = new Todos({
+  new Todos({
     title: req.body.title,
     text: req.body.text,
     author: req.body.author
   }).save()
-  .then((todo) => res.send({ text: "success", data: todo }))
+  .then((todo) => {
+    Users.update({ _id: todo.author }, { $push: { todos: todo._id } })
+    .then((data) => {
+      res.send({ text: "success", data: todo })
+    }).catch((err) => res.send({ text: 'error', err: err }))
+  })
   .catch((err) => res.send({ text: "error", err: err }))
 })
 
@@ -33,7 +39,9 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
   Todos.update({ _id: req.params.id }, req.body)
-  .then((todo) => res.send({ text: "success", data: todo }))
+  .then((todo) => {
+    res.send({ text: "success", data: todo })
+  })
   .catch((err) => res.send({ text: 'error', err: err }))
 })
 
