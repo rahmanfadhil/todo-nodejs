@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/search', (req, res) => {
-  Users.find({ name: { $regex: new RegExp(req.query.name, "i")}})
+  Users.find({ name: { $regex: new RegExp(req.query.name, "i") } })
   .then((users) => res.send({ text: "success", data: users }))
   .catch((err) => res.send({ text: 'error', err: err }))
 })
