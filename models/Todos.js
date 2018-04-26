@@ -16,6 +16,7 @@ module.exports = mongoose.model('Todos', Schema({
   },
   author: {
     type: Schema.Types.ObjectId,
-    ref: 'Users'
+    ref: 'Users',
+    required: true
   }
 }))

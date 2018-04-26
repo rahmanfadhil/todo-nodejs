@@ -19,7 +19,6 @@ router.post('/', (req, res) => {
   const new_user = new Users({
     name: req.body.name,
     email: req.body.email,
-    date_created: req.body.date_created
   }).save()
   .then((user) => res.send({ text: "success", data: user }))
   .catch((err) => res.send({ text: "add new user", err: err }))

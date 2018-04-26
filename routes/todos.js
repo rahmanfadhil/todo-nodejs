@@ -1,28 +1,47 @@
 const express = require('express')
 const router = express.Router()
 
+const Todos = require('../models/Todos')
+
 router.get('/', (req, res) => {
-  res.send({ text: "show all todos"})
-})
-
-router.post('/', (req, res) => {
-  res.send({ text: "add new todo" })
-})
-
-router.get('/:id', (req, res) => {
-  res.send({ text: `show todo of ${req.params.id}`})
-})
-
-router.put('/:id', (req, res) => {
-  res.send({ text: `update todo of ${req.params.id}`})
-})
-
-router.delete('/:id', (req, res) => {
-  res.send({ text: `delete todo of ${req.params.id}`})
+  Todos.find().populate('author')
+  .then((todos) => res.send({ text: "success", data: todos }))
+  .catch((err) => res.send({ text: 'error', err: err }))
 })
 
 router.get('/search', (req, res) => {
-  res.send({ text: `search todos: ${req.query.todo}`})
+  Todos.find({ title: { $regex: new RegExp(req.query.title, "i") } })
+  .then((todos) => res.send({ text: "success", data: todos }))
+  .catch((err) => res.send({ text: 'error', err: err }))
 })
+
+router.post('/', (req, res) => {
+  const new_todo = new Todos({
+    title: req.body.title,
+    text: req.body.text,
+    author: req.body.author
+  }).save()
+  .then((todo) => res.send({ text: "success", data: todo }))
+  .catch((err) => res.send({ text: "error", err: err }))
+})
+
+router.get('/:id', (req, res) => {
+  Todos.findOne({ _id: req.params.id })
+  .then((todo) => res.send({ text: "success", data: todo }))
+  .catch((err) => res.send({ text: 'error', err: err }))
+})
+
+router.put('/:id', (req, res) => {
+  Todos.update({ _id: req.params.id }, req.body)
+  .then((todo) => res.send({ text: "success", data: todo }))
+  .catch((err) => res.send({ text: 'error', err: err }))
+})
+
+router.delete('/:id', (req, res) => {
+  Todos.remove()
+  .then((todo) => res.send({ text: "success", data: todo }))
+  .catch((err) => res.send({ text: 'error', err: err }))
+})
+
 
 module.exports = router
