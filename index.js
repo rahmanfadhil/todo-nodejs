@@ -13,7 +13,7 @@ app.use(bodyparser.json())
 
 // -----------------------------------------------------------------------------
 
-mongoose.connect('mongodb://localhost/todos')
+mongoose.connect(process.env.DB_URI || 'mongodb://localhost/todos')
 
 // -----------------------------------------------------------------------------
 
